@@ -1,2 +1,2 @@
-https://arturchicks.github.io/Movie-app/
+https://arturchicks.github.io/Movie-app/ \n
 код и файлы окружениия находятся в ветке main
