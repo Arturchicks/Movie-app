@@ -34,20 +34,7 @@ export default class Films extends Component {
         return name
       }
     }
-    // let arr
-    // if (filmData && filmDataRated) {
-    //   let filmDataIds = filmData.map((e) => e.id)
-    //   let filmDataRatedIds = filmDataRated.map((e) => e.id)
-    //   let result = filmDataIds.map((item) => {
-    //     return filmDataRatedIds.includes(item)
-    //   })
-    //   arr = []
-    //   result.forEach((e, i) => {
-    //     if (e === true) {
-    //       arr.push(i)
-    //     }
-    //   }, [])
-    // }
+
     let films
     if (filmData) {
       films = filmData.map((e) => {
@@ -94,7 +81,7 @@ export default class Films extends Component {
     if (!loaded && value !== "") {
       return (
         <div className="loading">
-          <Spin tip="Loading" size="large"></Spin>
+          <Spin className="loading" tip="Loading" size="large"></Spin>
         </div>
       )
     } else if (error) {

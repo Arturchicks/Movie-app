@@ -79,6 +79,7 @@ export default class SearchInput extends Component {
         />
         {!isTabed && fetched && this.state.value && loaded && filmData.length > 0 && (
           <Pagination
+            className="pagination"
             current={this.state.current_page}
             defaultCurrent={1}
             total={total_pages * 10}

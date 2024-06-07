@@ -9,11 +9,8 @@
   width: 69%;
   margin-left: 17%;
 }
-.ant-pagination.css-dev-only-do-not-override-j9bb5n {
+.pagination {
   display: flex;
   justify-content: center;
   margin-top: 20px;
-}
-.ant-pagination-options {
-  display: none;
 }
