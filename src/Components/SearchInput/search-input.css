@@ -1,9 +1,18 @@
 .anticon .anticon-user {
   display: none;
 }
-.ant-input.ant-input-lg.css-dev-only-do-not-override-j9bb5n.ant-input-outlined {
+
+.ant-pagination-options {
+  display: none;
+}
+.input {
   width: 69%;
   margin-left: 17%;
+}
+.ant-pagination.css-dev-only-do-not-override-j9bb5n {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
 .ant-pagination-options {
   display: none;

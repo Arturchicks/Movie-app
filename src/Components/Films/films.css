@@ -70,14 +70,7 @@
   animation-name: search;
   animation-duration: 0.5s;
 }
-.ant-pagination.css-dev-only-do-not-override-j9bb5n {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-.ant-pagination-options {
-  display: none;
-}
+
 .ant-alert.ant-alert-success.css-dev-only-do-not-override-j9bb5n {
   background-image: url(../../../../../Downloads/oie_316415NjpGTvyD\ \(1\).gif);
   background-repeat: no-repeat;

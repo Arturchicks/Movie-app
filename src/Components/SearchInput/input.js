@@ -52,6 +52,7 @@ export default class SearchInput extends Component {
         <Input
           size="large"
           placeholder="Type to search..."
+          className="input"
           value={this.state.value}
           onChange={(e) => {
             this.setState({ value: e.target.value }, this.handleData(e.target.value))
