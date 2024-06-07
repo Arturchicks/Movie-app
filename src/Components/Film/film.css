@@ -1,0 +1,119 @@
+@font-face {
+  font-family: Inter UI;
+  src: url(../../../../../Downloads/Inter-UI-Regular.otf);
+}
+@font-face {
+  font-family: Inter;
+  src: url(../../../../../Downloads/Inter-Regular.ttf);
+}
+@keyframes film-card {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.filmImg {
+  width: 183px;
+  height: 279px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.filmCard {
+  position: relative;
+  width: 451px;
+  height: 279px;
+  background-color: rgba(255, 255, 255, 1);
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+  animation-name: film-card;
+  animation-duration: 1s;
+  transition: all 0.05s ease;
+}
+.filmCard:hover {
+  scale: 1.025;
+  cursor: pointer;
+}
+.name {
+  font-family: Inter UI;
+  margin-left: 20px;
+  width: 211px;
+  max-height: 65px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.date {
+  font-family: Inter UI;
+  font-size: 12px;
+  color: rgba(130, 126, 126, 1);
+  font-weight: 100;
+  margin-left: 20px;
+}
+.filmCardWrapper {
+  display: flex;
+  height: 100%;
+}
+.overview {
+  align-self: center;
+  margin-right: 20px;
+  font-family: Inter;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 1);
+  font-weight: 100;
+  line-height: 22px;
+  height: 100px;
+}
+.genres {
+  padding: 0;
+  margin-left: 20px;
+  list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+}
+.info-field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: -webkit-fill-available;
+}
+
+.anticon.anticon-star > svg {
+  width: 15px;
+  height: 15px;
+}
+.rateBox {
+  background-repeat: no-repeat;
+  width: 34px;
+  height: 34px;
+  margin-top: 5px;
+  margin-right: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.rateBox.bad {
+  background-image: url(./red-ellipse.svg);
+}
+.rateBox.not-bad {
+  background-image: url(./orange-ellipse.svg);
+}
+.rateBox.good {
+  background-image: url(./ratedEllipse.svg);
+}
+.rateBox.very-good {
+  background-image: url(./perfect-ellipse.svg);
+}
+.filmCardHeader {
+  display: flex;
+  justify-content: space-between;
+}
+.rating {
+  font-family: Inter UI;
+}
+.footer {
+  margin-left: 20px;
+  width: 233px;
+}

@@ -1,0 +1,100 @@
+.film-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  list-style-type: none;
+}
+.loading {
+  display: flex;
+}
+.ant-spin.ant-spin-lg.ant-spin-spinning.ant-spin-show-text.css-dev-only-do-not-override-j9bb5n {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 3%;
+}
+@keyframes error-animation {
+  0% {
+    opacity: 0;
+    scale: 0;
+  }
+  100% {
+    opacity: 1;
+    scale: 1;
+  }
+}
+@keyframes search {
+  0% {
+    opacity: 0;
+    scale: 0;
+  }
+  100% {
+    opacity: 1;
+    scale: 1;
+  }
+}
+.ant-alert.ant-alert-error.ant-alert-no-icon.css-dev-only-do-not-override-j9bb5n {
+  width: 250px;
+  text-align: end;
+  height: 60px;
+  position: absolute;
+  top: 139px;
+  left: 40%;
+  background-image: url(../../../../../Downloads/icons8-error.gif);
+  background-repeat: no-repeat;
+  background-position-y: center;
+  background-position-x: 2.5px;
+  background-size: 40px;
+  animation-name: error-animation;
+  animation-duration: 1.5s;
+}
+.ant-alert-message {
+  font-size: 17px;
+}
+.ant-alert.ant-alert-warning.ant-alert-no-icon.css-dev-only-do-not-override-j9bb5n {
+  width: 251px;
+  height: 80px;
+  align-items: end;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 25px;
+  background-image: url(../../../../../Downloads/oie_1143616uvfy553O\ \(1\).gif);
+  background-repeat: no-repeat;
+  background-position-x: center;
+}
+.ant-alert.ant-alert-info.ant-alert-with-description.css-dev-only-do-not-override-j9bb5n {
+  width: 375px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  animation-name: search;
+  animation-duration: 0.5s;
+}
+.ant-pagination.css-dev-only-do-not-override-j9bb5n {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.ant-pagination-options {
+  display: none;
+}
+.ant-alert.ant-alert-success.css-dev-only-do-not-override-j9bb5n {
+  background-image: url(../../../../../Downloads/oie_316415NjpGTvyD\ \(1\).gif);
+  background-repeat: no-repeat;
+  height: 55px;
+  text-align: left;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  background-position-x: 178px;
+  background-position-y: 3px;
+  width: 235px;
+}
+.ant-alert-message {
+  font-size: 17px;
+}
+
+.ant-alert.ant-alert-success.ant-alert-no-icon.css-dev-only-do-not-override-j9bb5n {
+  animation-name: search;
+  animation-duration: 0.5s;
+}
