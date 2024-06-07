@@ -89,6 +89,7 @@ export default class Films extends Component {
     } else if (filmData.length === 0 && fetched && loaded && value !== "" && !isTabed) {
       return (
         <Alert
+          className="alert"
           message="Ничего не найдено"
           description="По вашему запросу не нашлось результатов"
           type="info"
