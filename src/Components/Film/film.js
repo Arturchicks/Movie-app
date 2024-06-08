@@ -10,7 +10,6 @@ export default class Film extends Component {
     super()
     this.state = {
       vote: 1,
-      res: null,
       options: {
         method: "POST",
         headers: {
