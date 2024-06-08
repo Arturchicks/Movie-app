@@ -15,13 +15,11 @@ export default class Film extends Component {
         headers: {
           accept: "application/json",
           "Content-Type": "application/json;charset=utf-8",
-          Authorization: "Bearer 8d41938f365dd86650d3e2dfdeb86fc1",
+          Authorization: "Bearer 8d41938f365dd86650d3e2dfdeb86fc1"
         },
-        body: JSON.stringify({ value: this.vote }),
+        body: JSON.stringify({ value: this.vote })
       },
-      apiKey: "8d41938f365dd86650d3e2dfdeb86fc1",
-      accessToken:
-        "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4ZDQxOTM4ZjM2NWRkODY2NTBkM2UyZGZkZWI4NmZjMSIsInN1YiI6IjY2NTUwMDJjNDgzOTIwYjM0Nzg5YjA4YiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AxZvjayWgj8Mri3jnXqqGmTA_eQHrCc1wZdB64PtL6s",
+      apiKey: "8d41938f365dd86650d3e2dfdeb86fc1"
     }
   }
 
@@ -89,9 +87,9 @@ export default class Film extends Component {
                         headers: {
                           accept: "application/json",
                           "Content-Type": "application/json;charset=utf-8",
-                          Authorization: "Bearer 8d41938f365dd86650d3e2dfdeb86fc1",
+                          Authorization: "Bearer 8d41938f365dd86650d3e2dfdeb86fc1"
                         },
-                        body: JSON.stringify({ value: this.state.vote }),
+                        body: JSON.stringify({ value: this.state.vote })
                       }
                     )
                       .then(() => handleData(id, e))
