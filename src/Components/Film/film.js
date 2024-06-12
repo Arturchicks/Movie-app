@@ -5,6 +5,8 @@ import { Tag, Rate } from "antd"
 
 import { MyContext } from "../Context/context"
 
+import img from "./backfall-poster.png"
+
 export default class Film extends Component {
   constructor() {
     super()
@@ -42,8 +44,7 @@ export default class Film extends Component {
     this.genres()
   }
   render() {
-    const { name, images, date, overview, id, guestSessionId, rating, handleData, stars } = this.props
-    const { apiKey } = this.state
+    const { name, images, date, overview, id, guestSessionId, rating, handleData, stars, ratingPost } = this.props
     const colorFunc = () => {
       let classN
       if (rating >= 0 && rating < 3) {
@@ -60,7 +61,11 @@ export default class Film extends Component {
     return (
       <li className="filmCard">
         <div className="filmCardWrapper">
-          <img src={`https://image.tmdb.org/t/p/original${images}`} className="filmImg"></img>
+          <img
+            src={images ? `https://image.tmdb.org/t/p/original${images}` : img}
+            className="filmImg"
+            alt="Movie poster"
+          />
           <div className="info-field">
             <div className="filmCardHeader">
               <span className="name">{name}</span>
@@ -75,23 +80,13 @@ export default class Film extends Component {
             <div className="footer">
               <span className="overview">{overview}</span>
               <Rate
+                className="rate"
                 allowHalf
                 defaultValue={stars}
                 count={10}
                 onChange={(e) =>
                   this.setState({ vote: e }, () =>
-                    fetch(
-                      `https://api.themoviedb.org/3/movie/${id}/rating?api_key=${apiKey}&guest_session_id=${guestSessionId}`,
-                      {
-                        method: "POST",
-                        headers: {
-                          accept: "application/json",
-                          "Content-Type": "application/json;charset=utf-8",
-                          Authorization: "Bearer 8d41938f365dd86650d3e2dfdeb86fc1"
-                        },
-                        body: JSON.stringify({ value: this.state.vote })
-                      }
-                    )
+                    ratingPost(e, id, guestSessionId)
                       .then(() => handleData(id, e))
                       .catch((err) => console.log(err))
                   )

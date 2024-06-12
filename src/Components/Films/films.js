@@ -10,29 +10,19 @@ export default class Films extends Component {
     this.props.handleDataFromFilms(id, stars)
   }
   render() {
-    const { filmData, error, loaded, fetched, value, guestSessionId, isTabed, filmDataRated } = this.props
+    const { filmData, error, loaded, fetched, value, guestSessionId, isTabed, filmDataRated, ratingPost } = this.props
 
-    const overviewCut = (overview) => {
-      if (overview.length > 0)
-        if (overview.length > 150) {
-          let cutView = overview.split("").toSpliced(150, overview.length)
+    const stringCut = (cut, length) => {
+      if (cut.length > 0)
+        if (cut.length > length) {
+          let cutView = cut.split("").toSpliced(150, cut.length)
           cutView = cutView.join("").split(" ")
           cutView.pop()
 
           return cutView.join(" ") + "..."
         } else {
-          return overview
+          return cut
         }
-    }
-    const nameCut = (name) => {
-      if (name.length > 50) {
-        let cutName = name.split("").toSpliced(50, name.length)
-        cutName = cutName.join("").split(" ")
-        cutName.pop()
-        return cutName.join(" ") + "..."
-      } else {
-        return name
-      }
     }
 
     let films
@@ -40,7 +30,7 @@ export default class Films extends Component {
       films = filmData.map((e) => {
         return (
           <Film
-            name={nameCut(e.title)}
+            name={stringCut(e.title, 50)}
             key={e.id}
             id={e.id}
             filmData={filmData}
@@ -52,7 +42,8 @@ export default class Films extends Component {
             guestSessionId={guestSessionId}
             images={e.poster_path}
             date={e.release_date !== "" ? e.release_date : new Date(null)}
-            overview={overviewCut(e.overview)}
+            overview={stringCut(e.overview, 150)}
+            ratingPost={ratingPost}
           />
         )
       })
@@ -62,7 +53,7 @@ export default class Films extends Component {
       ratedFilms = filmDataRated.map((e) => {
         return (
           <Film
-            name={nameCut(e.title)}
+            name={stringCut(e.title, 50)}
             key={e.id}
             id={e.id}
             stars={e.stars}
@@ -72,7 +63,8 @@ export default class Films extends Component {
             guestSessionId={guestSessionId}
             images={e.poster_path}
             date={e.release_date !== "" ? e.release_date : new Date(null)}
-            overview={overviewCut(e.overview)}
+            overview={stringCut(e.overview, 150)}
+            ratingPost={ratingPost}
           />
         )
       })

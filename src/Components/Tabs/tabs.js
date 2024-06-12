@@ -6,27 +6,20 @@ export default class Tab extends Component {
   constructor() {
     super()
     this.state = {
-      tabed: false,
+      tabed: false
     }
   }
   render() {
-    const { apiKey, guestSessionId, passData, passTab, passIsTab } = this.props
-    const options = {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-      },
-    }
+    const { guestSessionId, passData, passTab, passIsTab, rated_current_page, getRatedMovies } = this.props
     const items = [
       {
         key: "1",
-        label: "Search",
-        // children: "Content of Tab Pane 1",
+        label: "Search"
       },
       {
         key: "2",
-        label: "Rated",
-      },
+        label: "Rated"
+      }
     ]
     const handleProp = (data) => {
       passData(data)
@@ -47,15 +40,10 @@ export default class Tab extends Component {
           if (e === "2") {
             handleTab(e)
             handleIsTab(true)
-            fetch(
-              `https://api.themoviedb.org/3/guest_session/${guestSessionId}/rated/movies?api_key=${apiKey}&language=en-US&page=1&sort_by=created_at.asc`,
-              options
-            )
-              .then((response) => response.json())
-              .then((response) => {
-                if (response) handleProp(response)
-                console.log(response.results)
-              })
+            getRatedMovies(guestSessionId, rated_current_page).then((response) => {
+              if (response) handleProp(response)
+              console.log(response.results)
+            })
           }
           if ((this.state.tabed && e === "1") || e === "1") {
             handleTab(e)

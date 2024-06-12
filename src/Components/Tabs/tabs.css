@@ -1,10 +1,11 @@
 .ant-tabs-nav {
   align-self: center;
 }
+
 .ant-tabs .ant-tabs-tab.ant-tabs-tab {
   margin: 0;
   width: 41.14px;
-  text-align: end;
+  justify-content: center;
 }
 .ant-tabs-nav::before {
   width: 108.95px;

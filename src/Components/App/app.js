@@ -1,13 +1,18 @@
 import React, { Component } from "react"
+import { Pagination } from "antd"
+import { debounce } from "lodash"
 
+import Service from "../Service/service"
 import { MyContext } from "../Context/context"
 import "./app.css"
 import Tab from "../Tabs/tabs"
 import SearchInput from "../SearchInput/input"
 import Films from "../Films/films"
+
 export default class App extends Component {
   constructor(props) {
     super(props)
+    this.service = new Service()
     this.state = {
       filmData: [],
       filmDataRated: [],
@@ -15,6 +20,7 @@ export default class App extends Component {
       fetched: false,
       total_pages: null,
       rated_total_pages: null,
+      rated_current_page: 1,
       loaded: true,
       genreIds: [],
       onTab: null,
@@ -26,20 +32,23 @@ export default class App extends Component {
         method: "GET",
         headers: {
           accept: "application/json",
-          Authorization: "Bearer 8d41938f365dd86650d3e2dfdeb86fc1",
-        },
+          Authorization: "Bearer 8d41938f365dd86650d3e2dfdeb86fc1"
+        }
       },
       accessToken:
         "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4ZDQxOTM4ZjM2NWRkODY2NTBkM2UyZGZkZWI4NmZjMSIsInN1YiI6IjY2NTUwMDJjNDgzOTIwYjM0Nzg5YjA4YiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AxZvjayWgj8Mri3jnXqqGmTA_eQHrCc1wZdB64PtL6s",
-      apiKey: "8d41938f365dd86650d3e2dfdeb86fc1",
+      apiKey: "8d41938f365dd86650d3e2dfdeb86fc1"
     }
+    this.debouncedF = debounce((query) => this.getData(query), 1500)
+    this.debouncedForPages = debounce((query, page) => {
+      this.getData(query, page)
+    }, 100)
   }
+
   handleDataFromChild = (val) => {
     this.setState({ value: val })
   }
-  handleInput = (val) => {
-    this.setState({ filmDataRated: val })
-  }
+
   handleDataFromTabs = (val) => {
     if (val.results)
       this.setState(
@@ -50,10 +59,10 @@ export default class App extends Component {
             const stars = find ? find.stars : notFind[1]
             return {
               ...e,
-              stars: stars,
+              stars: stars
             }
           }),
-          rated_total_pages: val.total_pages,
+          rated_total_pages: val.total_pages
         },
         console.log(this.state.filmDataRated)
       )
@@ -75,8 +84,22 @@ export default class App extends Component {
   }
   componentDidMount() {
     this.handleDataFromChild()
-    this.createGuestSession()
-    this.getGenreIds()
+    this.service
+      .createGuestSession()
+      .then((response) =>
+        this.setState({ guestSessionId: response.guest_session_id }, () => console.log(this.state.guestSessionId))
+      )
+    this.service.getGenreIds().then((response) =>
+      this.setState(
+        {
+          genreIds: response.genres.reduce((acc, e) => {
+            acc[e.id] = e.name
+            return acc
+          }, {})
+        },
+        () => console.log(this.state.genreIds)
+      )
+    )
   }
   componentDidUpdate() {
     this.handleDataFromFilms()
@@ -88,70 +111,51 @@ export default class App extends Component {
   onError = () => {
     this.setState({ error: true })
   }
-  createGuestSession = () => {
-    fetch(`https://api.themoviedb.org/3/authentication/guest_session/new?api_key=${this.state.apiKey}`)
-      .then((response) => response.json())
-      .then((response) =>
-        this.setState({ guestSessionId: response.guest_session_id }, () => console.log(this.state.guestSessionId))
-      )
-  }
-  getGenreIds = () => {
-    fetch("https://api.themoviedb.org/3/genre/movie/list", {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4ZDQxOTM4ZjM2NWRkODY2NTBkM2UyZGZkZWI4NmZjMSIsInN1YiI6IjY2NTUwMDJjNDgzOTIwYjM0Nzg5YjA4YiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AxZvjayWgj8Mri3jnXqqGmTA_eQHrCc1wZdB64PtL6s",
-      },
-    })
-      .then((response) => response.json())
-      .then((response) =>
-        this.setState({
-          genreIds: response.genres.reduce((acc, e) => {
-            acc[e.id] = e.name
-            return acc
-          }, {}),
-        })
-      )
-  }
 
-  getData = (query = "", page = 1) => {
-    const { apiKey, options } = this.state
-    fetch(
-      `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${query}&include_adult=false&language=en-US&page=${page}`,
-      options
-    )
-      .then((response) => response.json())
+  getData = (query, page) => {
+    this.service
+      .getFilmData(query, page)
       .then((response) => {
         if (response)
-          this.setState({
-            filmData: [
-              ...response.results
-                .filter((e) => e.poster_path !== null && e.overview !== "")
-                .map((e) => {
-                  const find = this.state.IdsNStars.find((el) => el[0] === e.id)
-                  const stars = find ? find[1] : 0
-                  return {
-                    ...e,
-                    stars: stars,
-                  }
-                }),
-            ],
-            total_pages: response.total_pages,
-            loaded: true,
-            fetched: true,
-          })
+          this.setState(
+            {
+              filmData: [
+                ...response.results
+                  .filter((e) => e.overview !== "")
+                  .map((e) => {
+                    const find = this.state.IdsNStars.find((el) => el[0] === e.id)
+                    const stars = find ? find[1] : 0
+                    return {
+                      ...e,
+                      stars: stars
+                    }
+                  })
+              ],
+              total_pages: response.total_pages,
+              loaded: true,
+              fetched: true
+            },
+            () => console.log(this.state.filmData)
+          )
       })
       .catch((err) => console.log(err))
   }
+  getRatedMovies = (session, page) => {
+    return this.service.getRatedMovies(session, page)
+  }
+  ratingPost = (id, vote, guest_session) => {
+    return this.service.ratingPost(id, vote, guest_session)
+  }
+
   render() {
     const { filmData, error, loaded, fetched, value, guestSessionId, apiKey } = this.state
     return (
-      <div>
+      <div className="wrapper">
         <MyContext.Provider value={this.state.genreIds}>
           <Tab
             guestSessionId={guestSessionId}
             apiKey={apiKey}
+            getRatedMovies={this.getRatedMovies}
             passData={this.handleDataFromTabs}
             passTab={this.handleTabOn}
             passIsTab={this.handleIsTabed}
@@ -159,9 +163,10 @@ export default class App extends Component {
             value={value}
             onDataFromChild={this.handleDataFromChild}
             passInput={this.handleInput}
+            rated_current_page={this.state.rated_current_page}
           />
           <SearchInput
-            getData={this.getData.bind(this)}
+            getData={this.getData}
             filmData={filmData}
             total_pages={this.state.total_pages}
             fetched={fetched}
@@ -186,7 +191,40 @@ export default class App extends Component {
             onTab={this.state.onTab}
             isTabed={this.state.isTabed}
             handleDataFromFilms={this.handleDataFromFilms}
+            ratingPost={this.ratingPost}
           />
+          {!this.state.isTabed && fetched && this.state.value && loaded && filmData.length > 0 && (
+            <Pagination
+              className="pagination"
+              current={this.state.current_page}
+              defaultCurrent={1}
+              total={this.state.total_pages * 10}
+              onChange={(e) => {
+                this.setState({ current_page: e }, () => {
+                  this.debouncedForPages(this.state.value, e, window.scrollTo(0, 0))
+                })
+              }}
+              showSizeChanger={false}
+              hideOnSinglePage
+            />
+          )}
+          {this.state.isTabed && fetched && loaded && this.state.filmDataRated && (
+            <Pagination
+              className="pagination"
+              current={this.state.rated_current_page}
+              defaultCurrent={1}
+              total={this.state.rated_total_pages * 10}
+              onChange={(e) => {
+                this.setState({ rated_current_page: e }, () => {
+                  this.service.ratedFetch(this.state.rated_current_page, this.state.guestSessionId).then((response) => {
+                    if (response.results) this.handleDataFromTabs(response)
+                  })
+                })
+              }}
+              showSizeChanger={false}
+              hideOnSinglePage
+            />
+          )}
         </MyContext.Provider>
       </div>
     )

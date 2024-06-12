@@ -4,6 +4,7 @@ import { Offline, Online } from "react-detect-offline"
 import { Alert } from "antd"
 
 import App from "./Components/App/app"
+
 const domNode = document.getElementById("root")
 const root = createRoot(domNode)
 root.render(

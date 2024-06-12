@@ -4,6 +4,7 @@
   justify-content: center;
   gap: 15px;
   list-style-type: none;
+  padding: 0;
 }
 .loading {
   display: flex;
