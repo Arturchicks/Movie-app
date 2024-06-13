@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/Movie-app/static/css/main.977c1601.css",
+    "main.js": "/Movie-app/static/js/main.8d8d5a2e.js",
+    "static/media/Inter-Regular.ttf": "/Movie-app/static/media/Inter-Regular.9ca9ba81e9dcaa12b3a1.ttf",
+    "static/media/Inter-UI-Regular.otf": "/Movie-app/static/media/Inter-UI-Regular.57518852cf2ce6bcde5c.otf",
+    "static/media/icons8-error.gif": "/Movie-app/static/media/icons8-error.18296097f9db111fb097.gif",
+    "index.html": "/Movie-app/index.html",
+    "main.977c1601.css.map": "/Movie-app/static/css/main.977c1601.css.map",
+    "main.8d8d5a2e.js.map": "/Movie-app/static/js/main.8d8d5a2e.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.977c1601.css",
+    "static/js/main.8d8d5a2e.js"
+  ]
+}
