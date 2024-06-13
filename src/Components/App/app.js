@@ -25,6 +25,7 @@ export default class App extends Component {
       genreIds: [],
       onTab: null,
       isTabed: false,
+      current_page: 1,
       error: false,
       value: "",
       guestSessionId: null,
@@ -48,7 +49,9 @@ export default class App extends Component {
   handleDataFromChild = (val) => {
     this.setState({ value: val })
   }
-
+  handlePage = () => {
+    this.setState({ current_page: 1 })
+  }
   handleDataFromTabs = (val) => {
     if (val.results)
       this.setState(
@@ -173,6 +176,7 @@ export default class App extends Component {
             onDataFromChild={this.handleDataFromChild}
             unClick={this.unClicked}
             loaded={loaded}
+            handlePage={this.handlePage}
             isTabed={this.state.isTabed}
             filmDataRated={this.state.filmDataRated}
             passInput={this.handleInput}

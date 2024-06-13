@@ -10,7 +10,6 @@ export default class SearchInput extends Component {
       value: "",
       prevValue: null,
       isDebounced: false,
-      current_page: 1,
       exception: false
     }
     const { getData } = this.props
@@ -30,7 +29,7 @@ export default class SearchInput extends Component {
   }
 
   render() {
-    const { unClick, isTabed } = this.props
+    const { unClick, isTabed, handlePage } = this.props
     if (!isTabed)
       return (
         <>
@@ -45,16 +44,12 @@ export default class SearchInput extends Component {
                 if (e.key !== "Backspace") {
                   unClick()
                   this.setState(
-                    { value: e.target.value, current_page: 1 },
-                    this.debouncedF(e.target.value, this.state.current_page)
+                    { value: e.target.value },
+                    this.debouncedF(e.target.value, this.state.current_page),
+                    handlePage()
                   )
                 }
               }
-              // if (isTabed) {
-              //   this.setState({ value: e.target.value }, () => {
-              //     this.ratedFetch()
-              //   })
-              // }
             }}
             onKeyDown={(e) => {
               if (this.state.value === "" && e.key === " ") {

@@ -77,11 +77,11 @@ export default class Films extends Component {
         </div>
       )
     } else if (error) {
-      return <Alert message={"Something went wrong..."} type="error" />
+      return <Alert className="alert" message={"Something went wrong..."} type="error" />
     } else if (filmData.length === 0 && fetched && loaded && value !== "" && !isTabed) {
       return (
         <Alert
-          className="alert"
+          className="info-alert"
           message="Ничего не найдено"
           description="По вашему запросу не нашлось результатов"
           type="info"
