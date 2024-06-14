@@ -1,9 +1,9 @@
 import React, { Component } from "react"
-import "./film.css"
+import "./Film.css"
 import { format } from "date-fns"
 import { Tag, Rate } from "antd"
 
-import { MyContext } from "../Context/context"
+import { MyContext } from "../Context/Context"
 
 import img from "./backfall-poster.png"
 
@@ -11,17 +11,7 @@ export default class Film extends Component {
   constructor() {
     super()
     this.state = {
-      vote: 1,
-      options: {
-        method: "POST",
-        headers: {
-          accept: "application/json",
-          "Content-Type": "application/json;charset=utf-8",
-          Authorization: "Bearer 8d41938f365dd86650d3e2dfdeb86fc1"
-        },
-        body: JSON.stringify({ value: this.vote })
-      },
-      apiKey: "8d41938f365dd86650d3e2dfdeb86fc1"
+      vote: 1
     }
   }
 

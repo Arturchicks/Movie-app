@@ -2,12 +2,12 @@ import React, { Component } from "react"
 import { Pagination } from "antd"
 import { debounce } from "lodash"
 
-import Service from "../Service/service"
-import { MyContext } from "../Context/context"
-import "./app.css"
-import Tab from "../Tabs/tabs"
-import SearchInput from "../SearchInput/input"
-import Films from "../Films/films"
+import Service from "../../Service/Service"
+import { MyContext } from "../Context/Context"
+import "./App.css"
+import Tab from "../Tabs/Tabs"
+import SearchInput from "../SearchInput/SearchInput"
+import Films from "../Films/Films"
 
 export default class App extends Component {
   constructor(props) {
@@ -29,18 +29,8 @@ export default class App extends Component {
       error: false,
       value: "",
       guestSessionId: null,
-      options: {
-        method: "GET",
-        headers: {
-          accept: "application/json",
-          Authorization: "Bearer 8d41938f365dd86650d3e2dfdeb86fc1"
-        }
-      },
-      accessToken:
-        "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4ZDQxOTM4ZjM2NWRkODY2NTBkM2UyZGZkZWI4NmZjMSIsInN1YiI6IjY2NTUwMDJjNDgzOTIwYjM0Nzg5YjA4YiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AxZvjayWgj8Mri3jnXqqGmTA_eQHrCc1wZdB64PtL6s",
       apiKey: "8d41938f365dd86650d3e2dfdeb86fc1"
     }
-    this.debouncedF = debounce((query) => this.getData(query), 1500)
     this.debouncedForPages = debounce((query, page) => {
       this.getData(query, page)
     }, 100)
@@ -54,21 +44,18 @@ export default class App extends Component {
   }
   handleDataFromTabs = (val) => {
     if (val.results)
-      this.setState(
-        {
-          filmDataRated: val.results.map((e) => {
-            const find = this.state.filmData.find((el) => el.id === e.id)
-            const notFind = this.state.IdsNStars.find((el) => el[0] === e.id)
-            const stars = find ? find.stars : notFind[1]
-            return {
-              ...e,
-              stars: stars
-            }
-          }),
-          rated_total_pages: val.total_pages
-        },
-        console.log(this.state.filmDataRated)
-      )
+      this.setState({
+        filmDataRated: val.results.map((e) => {
+          const find = this.state.filmData.find((el) => el.id === e.id)
+          const notFind = this.state.IdsNStars.find((el) => el[0] === e.id)
+          const stars = find ? find.stars : notFind[1]
+          return {
+            ...e,
+            stars: stars
+          }
+        }),
+        rated_total_pages: val.total_pages
+      })
   }
   handleTabOn = (tab) => {
     this.setState({ onTab: tab })
@@ -87,11 +74,7 @@ export default class App extends Component {
   }
   componentDidMount() {
     this.handleDataFromChild()
-    this.service
-      .createGuestSession()
-      .then((response) =>
-        this.setState({ guestSessionId: response.guest_session_id }, () => console.log(this.state.guestSessionId))
-      )
+    this.service.createGuestSession().then((response) => this.setState({ guestSessionId: response.guest_session_id }))
     this.service.getGenreIds().then((response) =>
       this.setState(
         {
@@ -100,7 +83,7 @@ export default class App extends Component {
             return acc
           }, {})
         },
-        () => console.log(this.state.genreIds)
+        () => this.state.genreIds
       )
     )
   }
@@ -120,26 +103,23 @@ export default class App extends Component {
       .getFilmData(query, page)
       .then((response) => {
         if (response)
-          this.setState(
-            {
-              filmData: [
-                ...response.results
-                  .filter((e) => e.overview !== "")
-                  .map((e) => {
-                    const find = this.state.IdsNStars.find((el) => el[0] === e.id)
-                    const stars = find ? find[1] : 0
-                    return {
-                      ...e,
-                      stars: stars
-                    }
-                  })
-              ],
-              total_pages: response.total_pages,
-              loaded: true,
-              fetched: true
-            },
-            () => console.log(this.state.filmData)
-          )
+          this.setState({
+            filmData: [
+              ...response.results
+                .filter((e) => e.overview !== "")
+                .map((e) => {
+                  const find = this.state.IdsNStars.find((el) => el[0] === e.id)
+                  const stars = find ? find[1] : 0
+                  return {
+                    ...e,
+                    stars: stars
+                  }
+                })
+            ],
+            total_pages: response.total_pages,
+            loaded: true,
+            fetched: true
+          })
       })
       .catch((err) => console.log(err))
   }
@@ -197,7 +177,7 @@ export default class App extends Component {
             handleDataFromFilms={this.handleDataFromFilms}
             ratingPost={this.ratingPost}
           />
-          {!this.state.isTabed && fetched && this.state.value && loaded && filmData.length > 0 && (
+          {!this.state.isTabed && fetched && loaded && this.state.value && filmData.length > 0 && (
             <Pagination
               className="pagination"
               current={this.state.current_page}
@@ -205,7 +185,9 @@ export default class App extends Component {
               total={this.state.total_pages * 10}
               onChange={(e) => {
                 this.setState({ current_page: e }, () => {
-                  this.debouncedForPages(this.state.value, e, window.scrollTo(0, 0))
+                  this.setState({ loaded: false, fetched: false }, () =>
+                    this.debouncedForPages(this.state.value, e, window.scrollTo(0, 0))
+                  )
                 })
               }}
               showSizeChanger={false}

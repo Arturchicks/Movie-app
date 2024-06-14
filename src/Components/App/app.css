@@ -25,3 +25,8 @@ body {
   flex-wrap: wrap;
   gap: 100%;
 }
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}

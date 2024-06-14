@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import "./search-input.css"
+import "./SearchInput.css"
 import { Input } from "antd"
 import { debounce } from "lodash"
 
@@ -14,18 +14,9 @@ export default class SearchInput extends Component {
     }
     const { getData } = this.props
     this.debouncedF = debounce((query) => getData(query), 1500)
-    this.debouncedForPages = debounce((query, page) => {
-      getData(query, page)
-    }, 100)
   }
   handleData = (val) => {
     this.props.onDataFromChild(val)
-  }
-  handleInput = (val) => {
-    this.props.passInput(val)
-  }
-  updateDate = () => {
-    this.setState({ value: "" })
   }
 
   render() {

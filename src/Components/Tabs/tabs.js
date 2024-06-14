@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import { Tabs } from "antd"
-import "./tabs.css"
+import "./Tabs.css"
 
 export default class Tab extends Component {
   constructor() {
@@ -42,7 +42,6 @@ export default class Tab extends Component {
             handleIsTab(true)
             getRatedMovies(guestSessionId, rated_current_page).then((response) => {
               if (response) handleProp(response)
-              console.log(response.results)
             })
           }
           if ((this.state.tabed && e === "1") || e === "1") {

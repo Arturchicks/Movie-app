@@ -1,9 +1,9 @@
 import React, { Component } from "react"
-import "./films.css"
+import "./Films.css"
 import { Spin, Alert } from "antd"
 
-import Film from "../Film/film"
-import { MyContext } from "../Context/context"
+import Film from "../Film/Film"
+import { MyContext } from "../Context/Context"
 
 export default class Films extends Component {
   handleData = (id, stars) => {
@@ -13,16 +13,14 @@ export default class Films extends Component {
     const { filmData, error, loaded, fetched, value, guestSessionId, isTabed, filmDataRated, ratingPost } = this.props
 
     const stringCut = (cut, length) => {
-      if (cut.length > 0)
-        if (cut.length > length) {
-          let cutView = cut.split("").toSpliced(150, cut.length)
-          cutView = cutView.join("").split(" ")
-          cutView.pop()
-
-          return cutView.join(" ") + "..."
-        } else {
-          return cut
-        }
+      if (cut.length === 0 || cut.length <= length) {
+        return cut
+      } else {
+        let cutView = cut.split("").toSpliced(length, cut.length)
+        cutView = cutView.join("").split(" ")
+        cutView.pop()
+        return cutView.join(" ") + "..."
+      }
     }
 
     let films
@@ -42,7 +40,7 @@ export default class Films extends Component {
             guestSessionId={guestSessionId}
             images={e.poster_path}
             date={e.release_date !== "" ? e.release_date : new Date(null)}
-            overview={stringCut(e.overview, 150)}
+            overview={stringCut(e.overview, 125)}
             ratingPost={ratingPost}
           />
         )
@@ -63,7 +61,7 @@ export default class Films extends Component {
             guestSessionId={guestSessionId}
             images={e.poster_path}
             date={e.release_date !== "" ? e.release_date : new Date(null)}
-            overview={stringCut(e.overview, 150)}
+            overview={stringCut(e.overview, 125)}
             ratingPost={ratingPost}
           />
         )
