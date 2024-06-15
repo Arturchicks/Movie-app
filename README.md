@@ -1,1 +1,1 @@
-https://arturchicks.github.io/Movie-app/
+https://arturchicks.github.io/Movie-app/index.html
